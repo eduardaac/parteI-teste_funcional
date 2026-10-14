@@ -36,48 +36,6 @@ Os parâmetros devem ser inteiros positivos, e a quantidade inicial de peixes de
 
 `X + Y ≤ M × N`
 
-## Técnicas de teste aplicadas
-
-### 1. Particionamento em Classes de Equivalência
-
-Identificação de classes válidas e inválidas para os parâmetros de inicialização e de condições que representam os diferentes comportamentos dos peixes.
-
-São considerados, entre outros, valores não positivos, valores não inteiros, excesso de peixes em relação à capacidade da matriz, ausência de células livres e condições para reprodução e morte por fome.
-
-### 2. Análise de Valores-Limite
-
-Verificação de valores próximos aos limites de validade das entradas e aos contadores que controlam o comportamento dos peixes.
-
-Os principais limites analisados incluem:
-
-- Dimensões mínimas da matriz.
-- Quantidade máxima de peixes em relação à capacidade do aquário.
-- Limites `RA`, `MA`, `RB` e `MB`.
-- Valores imediatamente anteriores e iguais aos limites dos contadores.
-
-### 3. Grafo de Causa-Efeito
-
-Modelagem das relações lógicas entre condições de entrada e eventos do jogo, permitindo identificar combinações de causas que produzem determinadas saídas.
-
-São consideradas as condições de movimentação, alimentação, reprodução, morte por fome e encerramento da partida.
-
-### 4. Tabela de Decisão
-
-Organização das combinações de condições e respectivos efeitos esperados, auxiliando na derivação e na verificação dos casos de teste.
-
-## Casos de teste
-
-O relatório especifica **19 casos de teste funcionais**, distribuídos entre os seguintes grupos:
-
-| Grupo | Escopo |
-|---|---|
-| CT01–CT05 | Validação da inicialização e dos parâmetros de entrada |
-| CT06–CT10 | Movimentação, reprodução e morte por fome do peixe A |
-| CT11–CT16 | Alimentação, movimentação, reprodução e morte por fome do peixe B |
-| CT17–CT19 | Encerramento do jogo e verificação da pontuação |
-
-Cada caso de teste apresenta condições de entrada, saída esperada e classes de equivalência exercitadas, permitindo relacionar os cenários às técnicas de teste utilizadas.
-
 ## Integrantes
 
 - Bruno dos Santos Silva
