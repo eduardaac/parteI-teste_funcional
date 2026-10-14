@@ -6,8 +6,6 @@ Projeto desenvolvido para a disciplina **DCC168 — Teste de Software**, da Univ
 
 Especificar casos de teste para verificar o comportamento do Jogo do Aquário, considerando condições de entrada, regras de movimentação, reprodução, alimentação, morte por fome e encerramento da execução.
 
-O trabalho aplica três critérios principais de teste funcional: **Particionamento em Classes de Equivalência, Análise de Valores-Limite e Grafo de Causa-Efeito**. A Tabela de Decisão é utilizada como apoio na definição dos cenários de teste.
-
 ## Especificação do sistema
 
 O aquário é representado por uma matriz bidimensional de dimensões `M × N`, contendo peixes de dois tipos:
