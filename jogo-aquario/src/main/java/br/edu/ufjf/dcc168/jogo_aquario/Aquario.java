@@ -27,9 +27,8 @@ public class Aquario {
     }
 
 
-	public boolean posicionarPeixe(
-	        int linha, int coluna, Peixe peixe) {
-	
+	public boolean posicionarPeixe(int linha, int coluna, Peixe peixe) {
+
 	    if (peixe == null) {
 	        return false;
 	    }

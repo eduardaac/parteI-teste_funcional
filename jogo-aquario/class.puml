@@ -1,0 +1,64 @@
+@startuml AquarioClassDiagram
+
+title Diagrama de Classes do Jogo Aquário
+
+class Aquario {
+    - linhas: int
+    - colunas: int
+    - peixes: Peixe[][]
+    + Aquario(int linhas, int colunas)
+    + posicionarPeixe(int linha, int coluna, Peixe peixe): boolean
+    + getPeixe(int linha, int coluna): Peixe
+}
+
+Aquario "1" *-- "1..*" Peixe : contém
+
+class Peixe {
+    - tipo: Tipo
+    - movimentosConsecutivos: int
+    - iteracoesSemMovimento: int
+    - peixesComidos: int
+    - iteracoesSemComer: int
+
+    + Peixe(tipo:Tipo)
+    + getTipo(): Tipo
+
+    + getMovimentosConsecutivos(): int
+    + registrarMovimento(): void
+    
+    + getIteracoesSemMovimento(): int
+    + registrarSemMovimento(): void
+
+    + getPeixesComidos(): int
+    + registrarPeixeComido(): void
+
+    + getIteracoesSemComer(): int
+    + registrarSemComer(): void
+
+}
+
+package B4Hive{
+    enum Tipo {
+        A,
+        B
+    }
+
+    abstract class IPeixe {
+
+        - fome: int
+        - reproducao: int
+        
+        + {abstract} getTipo(): Tipo
+
+        + getFome(): int
+        + incrementarFome(): void
+        + decrementarFome(): void
+
+        + getReproducao(): int
+        + {abstract} incrementarReproducao(): void
+        + resetReproducao(): void
+
+    }
+}
+
+@enduml
