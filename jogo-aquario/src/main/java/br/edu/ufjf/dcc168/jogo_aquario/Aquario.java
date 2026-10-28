@@ -46,6 +46,43 @@ public class Aquario {
 	    return true;
 	}
 
+    public boolean moverPeixe(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino) {
+        // Verifica se as coordenadas de origem e destino são válidas
+        if(linhaOrigem < 0 || linhaOrigem >= linhas || colunaOrigem < 0 || colunaOrigem >= colunas || linhaDestino < 0 || linhaDestino >= linhas || colunaDestino < 0 || colunaDestino >= colunas)
+            return false;
+
+        // Verifica se há um peixe na posição de origem
+        if(matriz[linhaOrigem][colunaOrigem] == null)
+            return false;
+
+        Peixe p = matriz[linhaOrigem][colunaOrigem];
+        
+        if(p.getTipo() == Peixe.Tipo.A)
+            if(matriz[linhaDestino][colunaDestino] != null)
+                return false;
+            else {
+                matriz[linhaDestino][colunaDestino] = p;
+                matriz[linhaOrigem][colunaOrigem] = null;
+                //TODO: Atualiza os Status do Peixe A
+            }
+        
+        else if(p.getTipo() == Peixe.Tipo.B)
+            if(matriz[linhaDestino][colunaDestino] != null) {
+                Peixe p2 = matriz[linhaDestino][colunaDestino];
+                if(p2.getTipo() == Peixe.Tipo.A) {
+                    //TODO: Peixe B come Peixe A
+                }
+                else
+                    return false;
+            }
+            else {
+                matriz[linhaDestino][colunaDestino] = p;
+                matriz[linhaOrigem][colunaOrigem] = null;
+                //TODO: Atualiza os Status do Peixe B
+            }
+        return false;
+    }
+
     public void exibir() {
         for (int i = 0; i < linhas; i++) {
             for (int j = 0; j < colunas; j++) {
