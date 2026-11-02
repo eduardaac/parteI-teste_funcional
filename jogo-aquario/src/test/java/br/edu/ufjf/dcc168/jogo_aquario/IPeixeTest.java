@@ -10,8 +10,44 @@ public class IPeixeTest {
 //region PeixeA
 
     @Test
+    public void testTipoPeixeA() {
+        peixe = new PeixeA();
+        assertEquals(Tipo.A, peixe.getTipo());
+    }
+
+    @Test
     public void testIncrementarFomePeixeA() {
         peixe = new PeixeA();
+        int fomeInicial = peixe.getFome();
+        peixe.incrementarFome();
+        assertTrue(peixe.getFome() > fomeInicial);
+        assertEquals(1, peixe.getFome());
+    }
+
+    @Test
+    public void testDecrementarFomePeixeA() {
+        peixe = new PeixeA();
+        peixe.incrementarFome();
+        int fomeInicial = peixe.getFome();
+        peixe.decrementarFome();
+        assertTrue(peixe.getFome() < fomeInicial);
+        assertEquals(-1, peixe.getFome());
+    }
+
+    @Test 
+    public void testDecrementarFomePeixeA2() {
+        peixe = new PeixeA();
+        peixe.incrementarFome();
+        int fomeInicial = peixe.getFome();
+        peixe.decrementarFome();
+        assertTrue(peixe.getFome() < fomeInicial);
+        assertEquals(-1, peixe.getFome());
+    }
+
+    @Test
+    public void testIncrementarFomePeixeA2() {
+        peixe = new PeixeA();
+        peixe.decrementarFome();
         int fomeInicial = peixe.getFome();
         peixe.incrementarFome();
         assertTrue(peixe.getFome() > fomeInicial);
@@ -29,13 +65,23 @@ public class IPeixeTest {
     }
 
     @Test
-    public void testDecrementarFomePeixeA() {
+    public void testIncrementarReproducaoPeixeA2() {
         peixe = new PeixeA();
-        peixe.incrementarFome();
-        int fomeInicial = peixe.getFome();
-        peixe.decrementarFome();
-        assertTrue(peixe.getFome() < fomeInicial);
-        assertEquals(-1, peixe.getFome());
+        int reproducaoInicial = peixe.getReproducao();
+        peixe.incrementarReproducao(); // Não deve aumentar
+        assertTrue(peixe.getReproducao() == reproducaoInicial);
+        assertEquals(0, peixe.getReproducao());
+    }
+
+    @Test 
+    public void testResetarReproducaoPeixeA() {
+        peixe = new PeixeA();
+        peixe.incrementarFome(); // RA baseado em MA
+        peixe.incrementarReproducao();
+        int reproducaoInicial = peixe.getReproducao();
+        peixe.resetarReproducao();
+        assertTrue(reproducaoInicial > peixe.getReproducao());
+        assertEquals(0, peixe.getReproducao());
     }
 
 //endregion PeixeA
@@ -43,8 +89,44 @@ public class IPeixeTest {
 //region PeixeB
 
     @Test
+    public void testTipoPeixeB() {
+        peixe = new PeixeB();
+        assertEquals(Tipo.B, peixe.getTipo());
+    }
+
+    @Test
     public void testIncrementarFomePeixeB() {
         peixe = new PeixeB();
+        int fomeInicial = peixe.getFome();
+        peixe.incrementarFome();
+        assertTrue(peixe.getFome() > fomeInicial);
+        assertEquals(1, peixe.getFome());
+    }
+
+    @Test
+    public void testDecrementarFomePeixeB() {
+        peixe = new PeixeB();
+        peixe.incrementarFome();
+        int fomeInicial = peixe.getFome();
+        peixe.decrementarFome();
+        assertTrue(peixe.getFome() < fomeInicial);
+        assertEquals(-1, peixe.getFome());
+    }
+
+    @Test 
+    public void testDecrementarFomePeixeB2() {
+        peixe = new PeixeB();
+        peixe.incrementarFome();
+        int fomeInicial = peixe.getFome();
+        peixe.decrementarFome();
+        assertTrue(peixe.getFome() < fomeInicial);
+        assertEquals(-1, peixe.getFome());
+    }
+
+    @Test 
+    public void testIncrementarFomePeixeB2() {
+        peixe = new PeixeB();
+        peixe.decrementarFome();
         int fomeInicial = peixe.getFome();
         peixe.incrementarFome();
         assertTrue(peixe.getFome() > fomeInicial);
@@ -60,14 +142,14 @@ public class IPeixeTest {
         assertEquals(1, peixe.getReproducao());
     }
 
-    @Test
-    public void testDecrementarFomePeixeB() {
+    @Test 
+    public void testResetarReproducaoPeixeB() {
         peixe = new PeixeB();
-        peixe.incrementarFome();
-        int fomeInicial = peixe.getFome();
-        peixe.decrementarFome();
-        assertTrue(peixe.getFome() < fomeInicial);
-        assertEquals(-1, peixe.getFome());
+        peixe.incrementarReproducao();
+        int reproducaoInicial = peixe.getReproducao();
+        peixe.resetarReproducao();
+        assertTrue(reproducaoInicial > peixe.getReproducao());
+        assertEquals(0, peixe.getReproducao());
     }
 
 //endregion PeixeB

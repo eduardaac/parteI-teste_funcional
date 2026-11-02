@@ -52,7 +52,7 @@ public class AquarioTest {
     @Test
     public void testPosicionarPeixeNaPrimeiraCelula() {
         Aquario aquario = new Aquario(3, 3);
-        Peixe peixe = new Peixe(Peixe.Tipo.A);
+        IPeixe peixe = new PeixeA();
 
         assertTrue(aquario.posicionarPeixe(0, 0, peixe));
     }
@@ -60,7 +60,7 @@ public class AquarioTest {
     @Test
     public void testPosicionarPeixeNaUltimaCelula() {
         Aquario aquario = new Aquario(3, 3);
-        Peixe peixe = new Peixe(Peixe.Tipo.B);
+        IPeixe peixe = new PeixeA();
 
         assertTrue(aquario.posicionarPeixe(2, 2, peixe));
     }
@@ -68,7 +68,7 @@ public class AquarioTest {
     @Test
     public void testRejeitarLinhaAnteriorAoLimite() {
         Aquario aquario = new Aquario(3, 3);
-        Peixe peixe = new Peixe(Peixe.Tipo.A);
+        IPeixe peixe = new PeixeA();
 
         assertFalse(aquario.posicionarPeixe(-1, 0, peixe));
     }
@@ -76,7 +76,7 @@ public class AquarioTest {
     @Test
     public void testRejeitarLinhaPosteriorAoLimite() {
         Aquario aquario = new Aquario(3, 3);
-        Peixe peixe = new Peixe(Peixe.Tipo.A);
+        IPeixe peixe = new PeixeA();
 
         assertFalse(aquario.posicionarPeixe(3, 0, peixe));
     }
@@ -84,7 +84,7 @@ public class AquarioTest {
     @Test
     public void testRejeitarColunaAnteriorAoLimite() {
         Aquario aquario = new Aquario(3, 3);
-        Peixe peixe = new Peixe(Peixe.Tipo.A);
+        IPeixe peixe = new PeixeA();
 
         assertFalse(aquario.posicionarPeixe(0, -1, peixe));
     }
@@ -92,7 +92,7 @@ public class AquarioTest {
     @Test
     public void testRejeitarColunaPosteriorAoLimite() {
         Aquario aquario = new Aquario(3, 3);
-        Peixe peixe = new Peixe(Peixe.Tipo.A);
+        IPeixe peixe = new PeixeA();
 
         assertFalse(aquario.posicionarPeixe(0, 3, peixe));
     }
@@ -100,107 +100,11 @@ public class AquarioTest {
     @Test
     public void testRejeitarPosicionamentoEmCelulaOcupada() {
         Aquario aquario = new Aquario(1, 1);
-        Peixe peixeA = new Peixe(Peixe.Tipo.A);
-        Peixe peixeB = new Peixe(Peixe.Tipo.B);
+        IPeixe peixeA = new PeixeA();
+        IPeixe peixeB = new PeixeB();
 
         assertTrue(aquario.posicionarPeixe(0, 0, peixeA));
         assertFalse(aquario.posicionarPeixe(0, 0, peixeB));
-    }
-
-    @Test
-    public void testContadorDeMovimentosConsecutivos() {
-        int[] valores = {2, 3, 4};
-
-        for (int valor : valores) {
-            Peixe peixe = new Peixe(Peixe.Tipo.A);
-
-            for (int i = 0; i < valor; i++) {
-                peixe.registrarMovimento();
-            }
-
-            assertEquals(valor, peixe.getMovimentosConsecutivos());
-        }
-    }
-
-    @Test
-    public void testContadorDeIteracoesSemMovimento() {
-        int[] valores = {2, 3, 4};
-
-        for (int valor : valores) {
-            Peixe peixe = new Peixe(Peixe.Tipo.A);
-
-            for (int i = 0; i < valor; i++) {
-                peixe.registrarSemMovimento();
-            }
-
-            assertEquals(valor, peixe.getIteracoesSemMovimento());
-        }
-    }
-
-    @Test
-    public void testContadorDePeixesComidos() {
-        int[] valores = {2, 3, 4};
-
-        for (int valor : valores) {
-            Peixe peixe = new Peixe(Peixe.Tipo.B);
-
-            for (int i = 0; i < valor; i++) {
-                peixe.registrarPeixeComido();
-            }
-
-            assertEquals(valor, peixe.getPeixesComidos());
-        }
-    }
-
-    @Test
-    public void testContadorDeIteracoesSemComer() {
-        int[] valores = {2, 3, 4};
-
-        for (int valor : valores) {
-            Peixe peixe = new Peixe(Peixe.Tipo.B);
-
-            for (int i = 0; i < valor; i++) {
-                peixe.registrarSemComer();
-            }
-
-            assertEquals(valor, peixe.getIteracoesSemComer());
-        }
-    }
-
-    @Test
-    public void testMovimentoZeraContadorDeParadas() {
-        Peixe peixe = new Peixe(Peixe.Tipo.A);
-
-        peixe.registrarSemMovimento();
-        peixe.registrarSemMovimento();
-        peixe.registrarMovimento();
-
-        assertEquals(0, peixe.getIteracoesSemMovimento());
-        assertEquals(1, peixe.getMovimentosConsecutivos());
-    }
-
-    @Test
-    public void testParadaZeraContadorDeMovimentos() {
-        Peixe peixe = new Peixe(Peixe.Tipo.A);
-
-        peixe.registrarMovimento();
-        peixe.registrarMovimento();
-        peixe.registrarSemMovimento();
-
-        assertEquals(0, peixe.getMovimentosConsecutivos());
-        assertEquals(1, peixe.getIteracoesSemMovimento());
-    }
-
-    @Test
-    public void testComerZeraContadorDeJejum() {
-        Peixe peixe = new Peixe(Peixe.Tipo.B);
-
-        peixe.registrarSemComer();
-        peixe.registrarSemComer();
-        peixe.registrarPeixeComido();
-
-        assertEquals(0, peixe.getIteracoesSemComer());
-        assertEquals(1, peixe.getPeixesComidos());
     }
 
     @Test
@@ -211,16 +115,87 @@ public class AquarioTest {
     }
 
     @Test
-    public void testRejeitarTipoDePeixeNulo() {
-        assertThrows(IllegalArgumentException.class,
-            () -> new Peixe(null));
-    }
-
-    @Test
     public void testIndiceValidoNaMatrizMinima() {
         Aquario aquario = new Aquario(1, 1);
-        Peixe peixe = new Peixe(Peixe.Tipo.A);
+        IPeixe peixe = new PeixeA();
 
         assertTrue(aquario.posicionarPeixe(0, 0, peixe));
     }
+
+    @Test 
+    public void testMoverPeixeA() {
+        Aquario aquario = new Aquario(3, 3);
+        IPeixe peixe = new PeixeA();
+        aquario.posicionarPeixe(0, 0, peixe);
+
+        assertTrue(aquario.moverPeixe(0, 0, 1, 1));
+    }
+
+    @Test
+    public void testMoverPeixeAParaCelulaInvalida() {
+        Aquario aquario = new Aquario(3, 3);
+        IPeixe peixe = new PeixeA();
+        aquario.posicionarPeixe(0, 0, peixe);
+
+        assertFalse(aquario.moverPeixe(0, 0, -1, -1));
+    }
+
+    @Test 
+    public void testMoverPeixeAParaCelulaOcupada() {
+        Aquario aquario = new Aquario(3, 3);
+        IPeixe peixeA = new PeixeA();
+        IPeixe peixeB = new PeixeB();
+        aquario.posicionarPeixe(0, 0, peixeA);
+        aquario.posicionarPeixe(1, 1, peixeB);
+
+        assertFalse(aquario.moverPeixe(0, 0, 1, 1));
+    }
+
+    @Test 
+    public void testMoverPeixeB() {
+        Aquario aquario = new Aquario(3, 3);
+        IPeixe peixe = new PeixeB();
+        aquario.posicionarPeixe(0, 0, peixe);
+
+        assertTrue(aquario.moverPeixe(0, 0, 1, 1));
+    }
+
+    @Test
+    public void testPeixeBComePeixeA() {
+        Aquario aquario = new Aquario(3, 3);
+        IPeixe peixeA = new PeixeA();
+        IPeixe peixeB = new PeixeB();
+        aquario.posicionarPeixe(0, 0, peixeA);
+        aquario.posicionarPeixe(1, 1, peixeB);
+
+        assertTrue(aquario.moverPeixe(1, 1, 0, 0));
+    }
+
+    @Test
+    public void testPeixeBNaoComePeixeB() {
+        Aquario aquario = new Aquario(3, 3);
+        IPeixe peixe1 = new PeixeB();
+        IPeixe peixe2 = new PeixeB();
+        aquario.posicionarPeixe(0, 0, peixe1);
+        aquario.posicionarPeixe(1, 1, peixe2);
+
+        assertFalse(aquario.moverPeixe(0, 0, 1, 1));
+    }
+
+    @Test
+    public void testMoverPeixeNull() {
+        Aquario aquario = new Aquario(3, 3);
+
+        assertFalse(aquario.moverPeixe(0, 0, 1, 1));
+    }
+
+    @Test 
+    public void testMoverPeixeDeCelulaInvalida() {
+        Aquario aquario = new Aquario(3, 3);
+        IPeixe peixe = new PeixeA();
+        aquario.posicionarPeixe(0, 0, peixe);
+
+        assertFalse(aquario.moverPeixe(-1, -1, 1, 1));
+    }
+
 }

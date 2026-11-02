@@ -4,7 +4,7 @@ public class Aquario {
 
     private int linhas;
     private int colunas;
-    private Peixe[][] matriz;
+    private IPeixe[][] matriz;
 
     public Aquario(int linhas, int colunas) {
         if (linhas <= 0 || colunas <= 0) {
@@ -15,7 +15,7 @@ public class Aquario {
 
         this.linhas = linhas;
         this.colunas = colunas;
-        this.matriz = new Peixe[linhas][colunas];
+        this.matriz = new IPeixe[linhas][colunas];
     }
 
     public int getLinhas() {
@@ -27,7 +27,7 @@ public class Aquario {
     }
 
 
-	public boolean posicionarPeixe(int linha, int coluna, Peixe peixe) {
+	public boolean posicionarPeixe(int linha, int coluna, IPeixe peixe) {
 
 	    if (peixe == null) {
 	        return false;
@@ -52,41 +52,47 @@ public class Aquario {
             return false;
 
         // Verifica se há um peixe na posição de origem
-        if(matriz[linhaOrigem][colunaOrigem] == null)
-            return false;
+        if(matriz[linhaOrigem][colunaOrigem] == null) return false;
 
-        Peixe p = matriz[linhaOrigem][colunaOrigem];
+        IPeixe p = matriz[linhaOrigem][colunaOrigem];
         
-        if(p.getTipo() == Peixe.Tipo.A)
-            if(matriz[linhaDestino][colunaDestino] != null)
-                return false;
+        if(p.getTipo() == Tipo.A) {
+            if(matriz[linhaDestino][colunaDestino] != null) return false;
             else {
                 matriz[linhaDestino][colunaDestino] = p;
                 matriz[linhaOrigem][colunaOrigem] = null;
-                //TODO: Atualiza os Status do Peixe A
+                p.incrementarFome();
+                p.incrementarReproducao();
+                return true;
             }
+        }
         
-        else if(p.getTipo() == Peixe.Tipo.B)
+        else if(p.getTipo() == Tipo.B) {
             if(matriz[linhaDestino][colunaDestino] != null) {
-                Peixe p2 = matriz[linhaDestino][colunaDestino];
-                if(p2.getTipo() == Peixe.Tipo.A) {
-                    //TODO: Peixe B come Peixe A
+                IPeixe p2 = matriz[linhaDestino][colunaDestino];
+                if(p2.getTipo() == Tipo.A) {
+                    matriz[linhaDestino][colunaDestino] = p;
+                    matriz[linhaOrigem][colunaOrigem] = null;
+                    p.incrementarFome();
+                    p.incrementarReproducao();
+                    return true;
                 }
-                else
-                    return false;
+                else return false;
             }
             else {
                 matriz[linhaDestino][colunaDestino] = p;
                 matriz[linhaOrigem][colunaOrigem] = null;
-                //TODO: Atualiza os Status do Peixe B
+                p.decrementarFome();
+                return true;
             }
+        }
         return false;
     }
 
     public void exibir() {
         for (int i = 0; i < linhas; i++) {
             for (int j = 0; j < colunas; j++) {
-                Peixe peixe = matriz[i][j];
+                IPeixe peixe = matriz[i][j];
 
                 if (peixe == null) {
                     System.out.print(". ");
