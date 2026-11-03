@@ -22,7 +22,9 @@ public abstract class IPeixe {
     public int getReproducao() {
         return reproducao;
     }
+
     public abstract void incrementarReproducao();
+
     public void resetarReproducao() {
         reproducao = 0;
     }
