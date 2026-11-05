@@ -5,60 +5,78 @@ title Diagrama de Classes do Jogo Aquário
 class Aquario {
     - linhas: int
     - colunas: int
-    - peixes: Peixe[][]
-    + Aquario(int linhas, int colunas)
-    + posicionarPeixe(int linha, int coluna, Peixe peixe): boolean
-    + getPeixe(int linha, int coluna): Peixe
+    - matriz: IPeixe[][]
+    - reproducaoA: int
+    - mortalidadeA: int
+    - reproducaoB: int
+    - mortalidadeB: int
+
+    + Aquario(int m, int n, int x, int y, int rA, int mA, int rB, int mB)
+    + getLinhas(): int
+    + getColunas(): int
+    + getReproducaoA(): int
+    + getMortalidadeA(): int
+    + getReproducaoB(): int
+    + getMortalidadeB(): int
+    + coordenadaValida(int linha, int coluna): boolean
+    + coordenadaOcupada(int linha, int coluna): boolean
+    + getPeixe(int linha, int coluna): IPeixe
+    + removerPeixe(int linha, int coluna): IPeixe
+    + posicionarPeixe(int linha, int coluna, IPeixe peixe): boolean
+    + moverPeixe(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino): boolean
+    + iterarCiclo(): void
+    + forcarproximaIteracao(): void
+    + exibir(): void
+    + contarPeixes(Tipo tipo): int
 }
 
-Aquario "1" *-- "1..*" Peixe : contém
+class Game {
+    - aquario: Aquario
+    - turn: int
+    + Game()
+    + newAquario(int linhas, int colunas, int peixesA, int peixesB, int reproducaoA, int mortalidadeA, int reproducaoB, int mortalidadeB): void
+    + newAquario(Aquario aquario): void
+    + nextCycle(): void
+    + endGame(): void
+}
 
-class Peixe {
-    - tipo: Tipo
-    - movimentosConsecutivos: int
-    - iteracoesSemMovimento: int
-    - peixesComidos: int
-    - iteracoesSemComer: int
+enum Tipo {
+    A
+    B
+    N
+}
 
-    + Peixe(tipo:Tipo)
-    + getTipo(): Tipo
+abstract class IPeixe {
+    # fome: int
+    # reproducao: int
+    - movimentou: boolean
 
-    + getMovimentosConsecutivos(): int
+    + {abstract} getTipo(): Tipo
+    + getFome(): int
+    + incrementarFome(): void
+    + decrementarFome(): void
+    + getReproducao(): int
+    + {abstract} incrementarReproducao(): void
+    + resetarReproducao(): void
+    + realizouMovimentoNoTurno(): boolean
     + registrarMovimento(): void
-    
-    + getIteracoesSemMovimento(): int
-    + registrarSemMovimento(): void
-
-    + getPeixesComidos(): int
-    + registrarPeixeComido(): void
-
-    + getIteracoesSemComer(): int
-    + registrarSemComer(): void
-
+    + resetarMovimento(): void
 }
 
-package B4Hive{
-    enum Tipo {
-        A,
-        B
-    }
-
-    abstract class IPeixe {
-
-        - fome: int
-        - reproducao: int
-        
-        + {abstract} getTipo(): Tipo
-
-        + getFome(): int
-        + incrementarFome(): void
-        + decrementarFome(): void
-
-        + getReproducao(): int
-        + {abstract} incrementarReproducao(): void
-        + resetReproducao(): void
-
-    }
+class PeixeA extends IPeixe {
+    + getTipo(): Tipo
+    + incrementarReproducao(): void
 }
+
+class PeixeB extends IPeixe{
+    + getTipo(): Tipo
+    + incrementarReproducao(): void
+}
+
+Aquario "1" *-- "0..*" IPeixe : contém
+Game "1" o-- "0..1" Aquario : gerencia
+Aquario ..> Tipo : utiliza
+PeixeA ..> Tipo : utiliza
+PeixeB ..> Tipo : utiliza
 
 @enduml

@@ -1,5 +1,8 @@
 package br.edu.ufjf.dcc168.jogo_aquario;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Aquario {
 
     private int linhas;
@@ -57,6 +60,15 @@ public class Aquario {
 
     public int getMortalidadeB() { return mortalidadeB; }
 
+    public boolean coordenadaValida(int linha, int coluna) {
+        return linha >= 0 && linha < linhas && coluna >= 0 && coluna < colunas;
+    }
+
+    public boolean coordenadaOcupada(int linha, int coluna) {
+        if(!coordenadaValida(linha, coluna)) return false;
+        return matriz[linha][coluna] != null;
+    }
+
     public IPeixe getPeixe(int linha, int coluna) {
         if(!coordenadaValida(linha, coluna)) return null;
         return matriz[linha][coluna];
@@ -69,15 +81,12 @@ public class Aquario {
         return peixe;
     }
 
-    public boolean coordenadaValida(int linha, int coluna) {
-        return linha >= 0 && linha < linhas && coluna >= 0 && coluna < colunas;
-    }
-
 	public boolean posicionarPeixe(int linha, int coluna, IPeixe peixe) {
 	    if (peixe == null) return false;
 	    if (!coordenadaValida(linha, coluna)) return false;
-	    if (matriz[linha][coluna] != null)  return false;
-	
+	    if (coordenadaOcupada(linha, coluna)) return false;
+
+	    peixe.registrarMovimento();
 	    matriz[linha][coluna] = peixe;
 	    return true;
 	}
@@ -99,7 +108,7 @@ public class Aquario {
     }
 
     private boolean acaoA(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino, IPeixe p) {
-        if(matriz[linhaDestino][colunaDestino] != null) return false;
+        if(coordenadaOcupada(linhaDestino, colunaDestino)) return false;
 
         if(p.getReproducao() >= reproducaoA) {
             p.resetarReproducao();
@@ -118,7 +127,7 @@ public class Aquario {
     }
 
     private boolean acaoB(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino, IPeixe p) {
-        if(matriz[linhaDestino][colunaDestino] != null) {
+        if(coordenadaValida(linhaDestino, colunaDestino) && coordenadaOcupada(linhaDestino, colunaDestino)) {
             IPeixe p2 = getPeixe(linhaDestino, colunaDestino);
             if(p2.getTipo() == Tipo.A) {
                 matriz[linhaDestino][colunaDestino] = p;
@@ -145,17 +154,121 @@ public class Aquario {
         return true;
     }
 
-    public void avancarCiclo() {
+    private int[][] buscarCasasAdjacentes(int linha, int coluna, Tipo tipo) {
+        List<int[]> casasAdjacentes = new ArrayList<>();
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (i == 0 && j == 0) continue;
+                int novaLinha = linha + i;
+                int novaColuna = coluna + j;
+                if (coordenadaValida(novaLinha, novaColuna)) {
+                    IPeixe peixeAdjacente = getPeixe(novaLinha, novaColuna);
+                    switch(tipo) {
+                        case A:
+                            if (peixeAdjacente != null && peixeAdjacente.getTipo() == Tipo.A) {
+                                casasAdjacentes.add(new int[]{novaLinha, novaColuna});
+                            }
+                            break;
+                        case B:
+                            if (peixeAdjacente != null && peixeAdjacente.getTipo() == Tipo.B) {
+                                casasAdjacentes.add(new int[]{novaLinha, novaColuna});
+                            }
+                            break;
+                        case N:
+                            if (peixeAdjacente == null) {
+                                casasAdjacentes.add(new int[]{novaLinha, novaColuna});
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        if (casasAdjacentes.isEmpty()) {
+            return null;
+        }
+        return casasAdjacentes.toArray(new int[casasAdjacentes.size()][]);
+    }
+
+    public void iterarCiclo() {
         for (int i = 0; i < linhas; i++) {
             for (int j = 0; j < colunas; j++) {
-                IPeixe peixe = matriz[i][j];
-                if (peixe != null) {
-                    peixe.decrementarFome();
-                    if (peixe.getTipo() == Tipo.A && -(peixe.getFome()) >= getMortalidadeA()) {
-                        removerPeixe(i, j);
+                if (getPeixe(i,j) == null) continue;
+                if (getPeixe(i,j).realizouMovimentoNoTurno()) continue;
+                if (getPeixe(i,j).getTipo() == Tipo.A)
+                    escolhaDeAcaoPeixeA(i, j, getPeixe(i,j));
+                else if (getPeixe(i,j).getTipo() == Tipo.B)
+                    escolhaDeAcaoPeixeB(i, j, getPeixe(i,j));
+            }
+        }
+
+        proximaIteracao();
+    }
+
+    private void proximaIteracao() {
+        for(int i=0;i<linhas;i++)
+            for(int j=0;j<colunas;j++)
+                if(getPeixe(i,j) != null) {
+                    getPeixe(i,j).resetarMovimento();
+                    if (getPeixe(i,j).getTipo() == Tipo.A) {
+                        if (-getPeixe(i,j).getFome() >= getMortalidadeA())
+                            removerPeixe(i, j);
                     }
-                    if (peixe.getTipo() == Tipo.B && -(peixe.getFome()) >= getMortalidadeB()) {
-                        removerPeixe(i, j);
+                    else if (getPeixe(i,j).getTipo() == Tipo.B) {
+                        if (-getPeixe(i,j).getFome() >= getMortalidadeB())
+                            removerPeixe(i, j);
+                    }
+                }
+    }
+
+    private void escolhaDeAcaoPeixeB(int i, int j, IPeixe peixe) {
+        int[][] adjacentes = buscarCasasAdjacentes(i, j, Tipo.A);
+        if (adjacentes != null) {
+            int[]destino = adjacentes[(int) (Math.random() * adjacentes.length)];
+            if (moverPeixe(i, j, destino[0], destino[1]))
+                peixe.registrarMovimento();
+        }
+        else {
+            adjacentes = buscarCasasAdjacentes(i, j, Tipo.N);
+            if (adjacentes != null) {
+                int[]destino = adjacentes[(int) (Math.random() * adjacentes.length)];
+                if (moverPeixe(i, j, destino[0], destino[1]))
+                    peixe.registrarMovimento();
+            }
+            else {
+                peixe.decrementarFome();
+                peixe.registrarMovimento();
+            }
+        }
+        
+    }
+
+    private void escolhaDeAcaoPeixeA(int i, int j, IPeixe peixe) {
+        int[][] adjacentes = buscarCasasAdjacentes(i, j, Tipo.N);
+        if (adjacentes != null) {
+            int[]destino = adjacentes[(int) (Math.random() * adjacentes.length)];
+            if (moverPeixe(i, j, destino[0], destino[1]))
+                peixe.registrarMovimento();
+        }
+        else {
+            peixe.decrementarFome();
+            peixe.registrarMovimento();
+        }
+    }
+
+    public void forcarproximaIteracao() {
+        for (int i = 0; i < linhas; i++) {
+            for (int j = 0; j < colunas; j++) {
+                if (getPeixe(i,j) != null) {
+                    getPeixe(i,j).decrementarFome();
+                    if (getPeixe(i,j).getTipo() == Tipo.A) {
+                        if (-(getPeixe(i,j).getFome()) >= getMortalidadeA())
+                            removerPeixe(i, j);
+                    }
+                    else if (getPeixe(i,j).getTipo() == Tipo.B) {
+                        if (-(getPeixe(i,j).getFome()) >= getMortalidadeB())
+                            removerPeixe(i, j);
                     }
                 }
             }
@@ -165,17 +278,23 @@ public class Aquario {
     public void exibir() {
         for (int i = 0; i < linhas; i++) {
             for (int j = 0; j < colunas; j++) {
-                IPeixe peixe = matriz[i][j];
-
-                if (peixe == null) {
+                if (getPeixe(i,j) == null) {
                     System.out.print(". ");
                 } else {
-                    System.out.print(peixe.getTipo() + " ");
+                    System.out.print(getPeixe(i,j).getTipo() + " ");
                 }
             }
-
             System.out.println();
         }
     }
 
+    public int contarPeixes(Tipo tipo) {
+        int count = 0;
+        for (int i = 0; i < linhas; i++)
+            for (int j = 0; j < colunas; j++)
+                if (coordenadaOcupada(i, j))
+                    if (getPeixe(i, j).getTipo() == tipo)
+                        count++;
+        return count;
+    }
 }

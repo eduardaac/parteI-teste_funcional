@@ -64,10 +64,10 @@ public class TestSetFunc {
         aquario.posicionarPeixe(0, 0, new PeixeA());
         assertNotNull(aquario.getPeixe(0, 0)); // parado 0
 
-        aquario.avancarCiclo();
+        aquario.forcarproximaIteracao();
         assertNotNull(aquario.getPeixe(0, 0)); // parado 1
 
-        aquario.avancarCiclo();
+        aquario.forcarproximaIteracao();
         assertNull(aquario.getPeixe(0, 0)); // parado 2
     }
 
@@ -126,10 +126,10 @@ public class TestSetFunc {
         aquario.posicionarPeixe(0, 0, new PeixeB());
         assertNotNull(aquario.getPeixe(0, 0)); // parado 0
 
-        aquario.avancarCiclo();
+        aquario.forcarproximaIteracao();
         assertNotNull(aquario.getPeixe(0, 0)); // parado 1
 
-        aquario.avancarCiclo();
+        aquario.forcarproximaIteracao();
         assertNull(aquario.getPeixe(0, 0)); // parado 2
     }
 
@@ -141,3 +141,4 @@ public class TestSetFunc {
 
     //endregion
 }
+//TODO: modificar nos testes: new Aquario -> Game.newAquario
