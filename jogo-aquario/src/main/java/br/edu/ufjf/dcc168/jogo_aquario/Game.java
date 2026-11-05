@@ -10,7 +10,6 @@ public class Game {
 
     public void newAquario(int linhas, int colunas, int peixesA, int peixesB, int reproducaoA, int mortalidadeA, int reproducaoB, int mortalidadeB) {
         aquario = new Aquario(linhas, colunas, peixesA, peixesB, reproducaoA, mortalidadeA, reproducaoB, mortalidadeB);
-        System.out.println("AAAAAAA");
         turn = 0;
     }
 
@@ -24,23 +23,34 @@ public class Game {
             System.out.println("Aquário não inicializado.");
             return;
         }
-        if (aquario.contarPeixes(Tipo.B) <= 0) {
-            System.out.println("Todos os peixes do tipo B morreram.");
-            endGame();
-            return;
-        }
+        if (endGame() > 0) return;
         turn++;
         aquario.iterarCiclo();
         System.out.println("Turno: " + turn);
         aquario.exibir();
     }
 
-    //TODO:public void skipCycle() {}
+    public void skipCycle() {
+        if (aquario == null) {
+            System.out.println("Aquário não inicializado.");
+            return;
+        }
+        if (endGame() > 0) return;
+        turn++;
+        aquario.forcarProximaIteracao();
+        System.out.println("Turno: " + turn);
+        aquario.exibir();
+    }
 
-    public void endGame() {
-        System.out.println("Fim do jogo.");
-        System.out.println("Total de turnos: " + turn);
-        aquario = null;
+    public int endGame() {
+        if (aquario.contarPeixes(Tipo.B) <= 0) {
+            System.out.println("Todos os peixes do tipo B morreram.");
+            System.out.println("Fim do jogo.");
+            System.out.println("Total de turnos: " + turn);
+            aquario = null;
+            return turn;
+        }
+        return 0;
     }
 
 }

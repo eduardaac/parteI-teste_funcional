@@ -64,10 +64,10 @@ public class TestSetFunc {
         aquario.posicionarPeixe(0, 0, new PeixeA());
         assertNotNull(aquario.getPeixe(0, 0)); // parado 0
 
-        aquario.forcarproximaIteracao();
+        aquario.forcarProximaIteracao();
         assertNotNull(aquario.getPeixe(0, 0)); // parado 1
 
-        aquario.forcarproximaIteracao();
+        aquario.forcarProximaIteracao();
         assertNull(aquario.getPeixe(0, 0)); // parado 2
     }
 
@@ -126,10 +126,10 @@ public class TestSetFunc {
         aquario.posicionarPeixe(0, 0, new PeixeB());
         assertNotNull(aquario.getPeixe(0, 0)); // parado 0
 
-        aquario.forcarproximaIteracao();
+        aquario.forcarProximaIteracao();
         assertNotNull(aquario.getPeixe(0, 0)); // parado 1
 
-        aquario.forcarproximaIteracao();
+        aquario.forcarProximaIteracao();
         assertNull(aquario.getPeixe(0, 0)); // parado 2
     }
 

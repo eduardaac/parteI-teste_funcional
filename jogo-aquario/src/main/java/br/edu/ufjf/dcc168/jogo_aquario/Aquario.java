@@ -257,7 +257,7 @@ public class Aquario {
         }
     }
 
-    public void forcarproximaIteracao() {
+    public void forcarProximaIteracao() {
         for (int i = 0; i < linhas; i++) {
             for (int j = 0; j < colunas; j++) {
                 if (getPeixe(i,j) != null) {
@@ -275,6 +275,7 @@ public class Aquario {
         }
     }
 
+    //TODO: mover exibir() para Game.java
     public void exibir() {
         for (int i = 0; i < linhas; i++) {
             for (int j = 0; j < colunas; j++) {
@@ -297,4 +298,5 @@ public class Aquario {
                         count++;
         return count;
     }
+
 }
