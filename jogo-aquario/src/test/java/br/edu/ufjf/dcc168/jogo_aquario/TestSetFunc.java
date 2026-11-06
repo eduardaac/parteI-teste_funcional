@@ -8,6 +8,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestSetFunc {
 
+    /* TODO: Casos de teste documentados ainda sem teste:
+     * CT08 - Reprodução do peixe A quando o limite RA é atingido, mas não há espaço.
+     * CT09 - Peixe A permanece vivo no limite MA - 1 de iterações sem movimento.
+     * CT12 - Peixe B move-se para uma célula livre quando não há peixe A adjacente.
+     * CT14 - Reprodução do peixe B impedida pela presença de outro peixe B adjacente.
+     * CT15 - Peixe B permanece vivo no limite MB - 1 de iterações sem alimentação.
+     */
+
     // region Validação de Inicialização
 
     @Test
