@@ -25,8 +25,7 @@ class Aquario {
     + posicionarPeixe(int linha, int coluna, IPeixe peixe): boolean
     + moverPeixe(int linhaOrigem, int colunaOrigem, int linhaDestino, int colunaDestino): boolean
     + iterarCiclo(): void
-    + forcarproximaIteracao(): void
-    + exibir(): void
+    + forcarProximaIteracao(): void
     + contarPeixes(Tipo tipo): int
 }
 
@@ -37,7 +36,9 @@ class Game {
     + newAquario(int linhas, int colunas, int peixesA, int peixesB, int reproducaoA, int mortalidadeA, int reproducaoB, int mortalidadeB): void
     + newAquario(Aquario aquario): void
     + nextCycle(): void
-    + endGame(): void
+    + skipCycle(): void
+    - exibir(): void
+    + endGame(): int
 }
 
 enum Tipo {

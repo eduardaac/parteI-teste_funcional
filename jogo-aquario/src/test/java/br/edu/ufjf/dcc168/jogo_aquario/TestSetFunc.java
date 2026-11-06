@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestSetFunc {
 
-    //region Validação de Inicialização
+    // region Validação de Inicialização
 
     @Test
     public void testGameValido() {
@@ -22,30 +22,30 @@ public class TestSetFunc {
         Game game = new Game();
 
         assertThrows(IllegalArgumentException.class,
-            () -> game.newAquario(0, 5, 1, 1, 2, 2, 2, 2));
+                () -> game.newAquario(0, 5, 1, 1, 2, 2, 2, 2));
     }
 
-    @Test 
+    @Test
     public void testPeixesEmExcesso() {
         Game game = new Game();
 
         assertThrows(IllegalArgumentException.class,
-            () -> game.newAquario(2, 2, 3, 2, 2, 2, 2, 2));
+                () -> game.newAquario(2, 2, 3, 2, 2, 2, 2, 2));
     }
 
-    @Test 
+    @Test
     public void testGameParametrosInvalidos() {
         Game game = new Game();
 
         assertThrows(IllegalArgumentException.class,
-            () -> game.newAquario(5, 5, 2, 2, 0, 2, 2, 2));
+                () -> game.newAquario(5, 5, 2, 2, 0, 2, 2, 2));
     }
 
-    //endregion
+    // endregion
 
-    //region Regras e Ciclo de Vida Peixe A
+    // region Regras e Ciclo de Vida Peixe A
 
-    @Test 
+    @Test
     public void testMovimentacaoPeixeA() {
         Aquario aquario = new Aquario(3, 3, 0, 0, 1, 1, 1, 1);
         aquario.posicionarPeixe(1, 1, new PeixeA());
@@ -65,7 +65,7 @@ public class TestSetFunc {
         assertNotNull(aquario.getPeixe(1, 1));
     }
 
-    @Test 
+    @Test
     public void testMortalidadePeixeA() {
         Aquario aquario = new Aquario(3, 3, 0, 0, 1, 2, 1, 1);
         aquario.posicionarPeixe(0, 0, new PeixeA());
@@ -78,23 +78,23 @@ public class TestSetFunc {
         assertNull(aquario.getPeixe(0, 0)); // parado 2
     }
 
-    //endregion
+    // endregion
 
-    //region Regras e Ciclo de Vida Peixe B
+    // region Regras e Ciclo de Vida Peixe B
 
-    @Test 
+    @Test
     public void testAlimentacaoPeixeB() {
         Aquario aquario = new Aquario(3, 3, 0, 0, 1, 1, 1, 1);
         aquario.posicionarPeixe(1, 1, new PeixeB());
         aquario.posicionarPeixe(1, 2, new PeixeA());
-        
+
         aquario.moverPeixe(1, 1, 1, 2);
         assertNull(aquario.getPeixe(1, 1));
-        
+
         assertEquals(Tipo.B, aquario.getPeixe(1, 2).getTipo());
     }
 
-    @Test 
+    @Test
     public void testMovimentacaoPeixeB() {
         Aquario aquario = new Aquario(3, 3, 0, 0, 2, 2, 2, 2);
         aquario.posicionarPeixe(1, 1, new PeixeB());
@@ -110,19 +110,19 @@ public class TestSetFunc {
         Aquario aquario = new Aquario(3, 3, 0, 0, 2, 2, 2, 2);
         aquario.posicionarPeixe(0, 0, new PeixeB());
         aquario.posicionarPeixe(0, 1, new PeixeA());
-        aquario.posicionarPeixe(0,2, new PeixeA());
-        
+        aquario.posicionarPeixe(0, 2, new PeixeA());
+
         aquario.moverPeixe(0, 0, 0, 1);
         aquario.moverPeixe(0, 1, 0, 2);
         aquario.moverPeixe(0, 2, 1, 2);
-        
+
         assertNull(aquario.getPeixe(0, 0));
         assertNull(aquario.getPeixe(0, 1));
         assertNotNull(aquario.getPeixe(0, 2));
         assertNotNull(aquario.getPeixe(1, 2));
     }
 
-    @Test 
+    @Test
     public void testMortalidadePeixeB() {
         Aquario aquario = new Aquario(3, 3, 0, 0, 1, 1, 1, 2);
         aquario.posicionarPeixe(0, 0, new PeixeB());
@@ -135,9 +135,9 @@ public class TestSetFunc {
         assertNull(aquario.getPeixe(0, 0)); // parado 2
     }
 
-    //endregion
+    // endregion
 
-    //region Encerramento e Pontuação
+    // region Encerramento e Pontuação
 
     @Test
     public void testEncerramentoPorExtincaoDosPeixesB() {
@@ -195,5 +195,6 @@ public class TestSetFunc {
         }
     }
 
-    //endregion
+    // endregion
+
 }

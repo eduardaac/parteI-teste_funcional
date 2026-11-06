@@ -13,12 +13,14 @@ public abstract class IPeixe {
     }
 
     public void incrementarFome() {
-        if (fome < 0) fome = 0;
+        if (fome < 0)
+            fome = 0;
         fome++;
     }
 
     public void decrementarFome() {
-        if (fome > 0) fome = 0;
+        if (fome > 0)
+            fome = 0;
         fome--;
     }
 

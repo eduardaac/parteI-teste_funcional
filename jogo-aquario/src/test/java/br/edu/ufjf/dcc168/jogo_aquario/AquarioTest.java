@@ -26,26 +26,26 @@ public class AquarioTest {
     @Test
     public void testRejeitarZeroLinhas() {
         assertThrows(IllegalArgumentException.class,
-            () -> new Aquario(0, 1, 0, 0, 1, 1, 1, 1));
+                () -> new Aquario(0, 1, 0, 0, 1, 1, 1, 1));
     }
 
     @Test
     public void testRejeitarZeroColunas() {
         assertThrows(IllegalArgumentException.class,
-            () -> new Aquario(1, 0, 0, 0, 1, 1, 1, 1));
+                () -> new Aquario(1, 0, 0, 0, 1, 1, 1, 1));
     }
 
     @Test
     public void testRejeitarDimensoesNegativas() {
         int[][] dimensoes = {
-            {-1, 3},
-            {3, -1},
-            {-1, -1}
+                { -1, 3 },
+                { 3, -1 },
+                { -1, -1 }
         };
 
         for (int[] dimensao : dimensoes) {
             assertThrows(IllegalArgumentException.class,
-                () -> new Aquario(dimensao[0], dimensao[1], 0, 0, 1, 1, 1, 1));
+                    () -> new Aquario(dimensao[0], dimensao[1], 0, 0, 1, 1, 1, 1));
         }
     }
 
@@ -122,7 +122,7 @@ public class AquarioTest {
         assertTrue(aquario.posicionarPeixe(0, 0, peixe));
     }
 
-    @Test 
+    @Test
     public void testMoverPeixeA() {
         Aquario aquario = new Aquario(3, 3, 0, 0, 1, 1, 1, 1);
         IPeixe peixe = new PeixeA();
@@ -140,7 +140,7 @@ public class AquarioTest {
         assertFalse(aquario.moverPeixe(0, 0, -1, -1));
     }
 
-    @Test 
+    @Test
     public void testMoverPeixeAParaCelulaOcupada() {
         Aquario aquario = new Aquario(3, 3, 0, 0, 1, 1, 1, 1);
         IPeixe peixeA = new PeixeA();
@@ -151,7 +151,7 @@ public class AquarioTest {
         assertFalse(aquario.moverPeixe(0, 0, 1, 1));
     }
 
-    @Test 
+    @Test
     public void testMoverPeixeB() {
         Aquario aquario = new Aquario(3, 3, 0, 0, 1, 1, 1, 1);
         IPeixe peixe = new PeixeB();
@@ -189,7 +189,7 @@ public class AquarioTest {
         assertFalse(aquario.moverPeixe(0, 0, 1, 1));
     }
 
-    @Test 
+    @Test
     public void testMoverPeixeDeCelulaInvalida() {
         Aquario aquario = new Aquario(3, 3, 0, 0, 1, 1, 1, 1);
         IPeixe peixe = new PeixeA();

@@ -5,10 +5,12 @@ public class Game {
         aquario = null;
         turn = 0;
     }
+
     private Aquario aquario;
     private int turn;
 
-    public void newAquario(int linhas, int colunas, int peixesA, int peixesB, int reproducaoA, int mortalidadeA, int reproducaoB, int mortalidadeB) {
+    public void newAquario(int linhas, int colunas, int peixesA, int peixesB, int reproducaoA, int mortalidadeA,
+            int reproducaoB, int mortalidadeB) {
         aquario = new Aquario(linhas, colunas, peixesA, peixesB, reproducaoA, mortalidadeA, reproducaoB, mortalidadeB);
         turn = 0;
     }
@@ -23,11 +25,12 @@ public class Game {
             System.out.println("Aquário não inicializado.");
             return;
         }
-        if (endGame() > 0) return;
+        if (endGame() > 0)
+            return;
         turn++;
         aquario.iterarCiclo();
         System.out.println("Turno: " + turn);
-        aquario.exibir();
+        exibir();
     }
 
     public void skipCycle() {
@@ -35,11 +38,22 @@ public class Game {
             System.out.println("Aquário não inicializado.");
             return;
         }
-        if (endGame() > 0) return;
+        if (endGame() > 0)
+            return;
         turn++;
         aquario.forcarProximaIteracao();
         System.out.println("Turno: " + turn);
-        aquario.exibir();
+        exibir();
+    }
+
+    private void exibir() {
+        for (int i = 0; i < aquario.getLinhas(); i++) {
+            for (int j = 0; j < aquario.getColunas(); j++) {
+                IPeixe peixe = aquario.getPeixe(i, j);
+                System.out.print(peixe == null ? ". " : peixe.getTipo() + " ");
+            }
+            System.out.println();
+        }
     }
 
     public int endGame() {

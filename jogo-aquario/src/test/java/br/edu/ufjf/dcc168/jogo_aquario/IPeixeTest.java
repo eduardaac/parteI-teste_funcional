@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class IPeixeTest {
     IPeixe peixe;
 
-//region PeixeA
+    // region PeixeA
 
     @Test
     public void testTipoPeixeA() {
@@ -34,7 +34,7 @@ public class IPeixeTest {
         assertEquals(-1, peixe.getFome());
     }
 
-    @Test 
+    @Test
     public void testDecrementarFomePeixeA2() {
         peixe = new PeixeA();
         peixe.incrementarFome();
@@ -73,7 +73,7 @@ public class IPeixeTest {
         assertEquals(0, peixe.getReproducao());
     }
 
-    @Test 
+    @Test
     public void testResetarReproducaoPeixeA() {
         peixe = new PeixeA();
         peixe.incrementarFome(); // RA baseado em MA
@@ -84,9 +84,9 @@ public class IPeixeTest {
         assertEquals(0, peixe.getReproducao());
     }
 
-//endregion PeixeA
+    // endregion PeixeA
 
-//region PeixeB
+    // region PeixeB
 
     @Test
     public void testTipoPeixeB() {
@@ -113,7 +113,7 @@ public class IPeixeTest {
         assertEquals(-1, peixe.getFome());
     }
 
-    @Test 
+    @Test
     public void testDecrementarFomePeixeB2() {
         peixe = new PeixeB();
         peixe.incrementarFome();
@@ -123,7 +123,7 @@ public class IPeixeTest {
         assertEquals(-1, peixe.getFome());
     }
 
-    @Test 
+    @Test
     public void testIncrementarFomePeixeB2() {
         peixe = new PeixeB();
         peixe.decrementarFome();
@@ -142,7 +142,7 @@ public class IPeixeTest {
         assertEquals(1, peixe.getReproducao());
     }
 
-    @Test 
+    @Test
     public void testResetarReproducaoPeixeB() {
         peixe = new PeixeB();
         peixe.incrementarReproducao();
@@ -152,6 +152,6 @@ public class IPeixeTest {
         assertEquals(0, peixe.getReproducao());
     }
 
-//endregion PeixeB
+    // endregion PeixeB
 
 }
